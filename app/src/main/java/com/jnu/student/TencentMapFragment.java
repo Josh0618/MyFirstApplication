@@ -1,5 +1,6 @@
 package com.jnu.student;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -14,6 +15,8 @@ import com.tencent.tencentmap.mapsdk.maps.model.BitmapDescriptorFactory;
 import com.tencent.tencentmap.mapsdk.maps.model.LatLng;
 import com.tencent.tencentmap.mapsdk.maps.model.Marker;
 import com.tencent.tencentmap.mapsdk.maps.model.MarkerOptions;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -64,6 +67,29 @@ public class TencentMapFragment extends Fragment {
 
     private com.tencent.tencentmap.mapsdk.maps.TextureMapView mapView = null;
 
+    public class DataDownloadTask extends AsyncTask<String, Void, String> {
+        @Override
+        protected String doInBackground(String... urls) {
+            return new ShopDownLoader().download(urls[0]);
+        }
+        @Override
+        protected void onPostExecute(String responseData) {
+            super.onPostExecute(responseData);
+            if (responseData != null) {
+                ArrayList<ShopLocation> shopLocations= new ShopDownLoader() .parseJsonObjects(responseData);
+                TencentMap tencentMap = mapView.getMap();
+                for (ShopLocation shopLocation : shopLocations) {
+                    LatLng point1 = new LatLng(shopLocation.getLatitude(), shopLocation.getLongitude());
+                    MarkerOptions markerOptions = new MarkerOptions(point1)
+                            .title(shopLocation.getName());
+                    Marker marker = tencentMap.addMarker(markerOptions);
+
+
+                }
+            }
+        }
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -71,12 +97,15 @@ public class TencentMapFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_tencent_map, container, false);
         mapView = rootView.findViewById(R.id.mapView);
 
+        new DataDownloadTask().execute("http://file.nidama.net/class/mobile_develop/data/bookstore2023.json");
+
+
         TencentMap tencentMap = mapView.getMap();
         tencentMap.setBuildingEnable(false);
 
         LatLng jinanUniversityLatLng = new LatLng(22.249942,113.534341);
 
-        tencentMap.moveCamera(CameraUpdateFactory.newLatLngZoom(jinanUniversityLatLng, tencentMap.getMaxZoomLevel()));
+        tencentMap.moveCamera(CameraUpdateFactory.newLatLng(jinanUniversityLatLng));
 
         MarkerOptions markerOptions = new MarkerOptions(jinanUniversityLatLng)
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));

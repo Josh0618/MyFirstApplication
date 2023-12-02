@@ -35,7 +35,7 @@ import java.util.List;
 
 public class MainActivity2 extends AppCompatActivity {
 
-    private String []tabHeaderStrings = {"Shopping items","Tencent maps","News"};
+    private String []tabHeaderStrings = {"Shopping items","Tencent maps ","News"};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
