@@ -35,7 +35,7 @@ import java.util.List;
 
 public class MainActivity2 extends AppCompatActivity {
 
-    private String []tabHeaderStrings = {"Shopping items","Tencent maps ","News"};
+    private String []tabHeaderStrings = {"Shopping items","Tencent maps ","News","Clock","Game"};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,7 +55,7 @@ public class MainActivity2 extends AppCompatActivity {
     }
 
     public class FragmentAdapter extends FragmentStateAdapter {
-        private static final int NUM_TABS = 3;
+        private static final int NUM_TABS = 5;
         public FragmentAdapter(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle) {
             super(fragmentManager, lifecycle);
         }
@@ -71,6 +71,10 @@ public class MainActivity2 extends AppCompatActivity {
                     return new TencentMapFragment();
                 case 2:
                     return new WebViewFragment();
+                case 3:
+                    return new ClockViewFragment();
+                case 4:
+                    return new GameViewFragment();
                 default:
                     return null;
             }
