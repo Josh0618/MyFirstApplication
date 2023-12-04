@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.jnu.student">
 
     <application
         android:usesCleartextTraffic="true"
@@ -18,6 +19,9 @@
             android:name="TencentMapSDK"
             android:value="XXFBZ-6KSCL-HPFP2-MLTT4-F67BT-PTFHG"/>
 
+        <activity
+            android:name=".BookDetailsActivity"
+            android:exported="false" />
 
         <activity
             android:name=".MainActivity2"

@@ -1,4 +1,4 @@
-package com.jnu.student;
+package com.jnu.student.view;
 
 import android.content.Context;
 import android.graphics.Bitmap;

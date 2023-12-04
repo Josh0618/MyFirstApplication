@@ -3,6 +3,8 @@ package com.jnu.student;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,7 +12,6 @@ import androidx.appcompat.app.AppCompatActivity;
 public class BookDetailsActivity extends AppCompatActivity {
 
     private int position = -1;
-    private boolean isNewBook = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,37 +22,25 @@ public class BookDetailsActivity extends AppCompatActivity {
         if (intent != null) {
             // 获取从主界面传递过来的数据
             String name = intent.getStringExtra("name");
-            position = intent.getIntExtra("position", -1);
 
-            // 判断是否为新建操作
-            isNewBook = position == -1;
-
-            EditText editTextBookTitle = findViewById(R.id.edit_text_book_title);
             if (name != null) {
+                position = intent.getIntExtra("position", -1);
+                EditText editTextBookTitle = findViewById(R.id.edit_text_book_title);
                 editTextBookTitle.setText(name);
             }
         }
-    }
+        Button buttonOk = findViewById(R.id.button_item_details_ok);
 
-    private void saveBookData() {
-        EditText editTextBookTitle = findViewById(R.id.edit_text_book_title);
-        String newBookTitle = editTextBookTitle.getText().toString();
-
-        Intent resultIntent = new Intent();
-        resultIntent.putExtra("name", newBookTitle);
-        resultIntent.putExtra("position", position);
-
-        if (isNewBook) {
-            setResult(Activity.RESULT_OK, resultIntent);
-        } else {
-            setResult(Activity.RESULT_OK, resultIntent);
-        }
-
-        finish();
-    }
-
-    private void cancelOperation() {
-        setResult(Activity.RESULT_CANCELED);
-        finish();
+        buttonOk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                EditText editTextItemName = findViewById(R.id.edit_text_book_title);
+                intent.putExtra("name", editTextItemName.getText().toString());
+                intent.putExtra("position", position);
+                setResult(Activity.RESULT_OK, intent);
+                BookDetailsActivity.this.finish();
+            }
+        });
     }
 }

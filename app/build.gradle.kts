@@ -15,8 +15,13 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        vectorDrawables {
-            useSupportLibrary = true
+        ndk{
+            //abiFilters.add("armeabi")
+            abiFilters.add("arm64-v8a")
+            //abiFilters.add("armeabi-v7a")
+            abiFilters.add("x86")
+            abiFilters.add("x86_64")
+
         }
     }
 
@@ -33,7 +38,7 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
-    kotlinOptions {
+    /*kotlinOptions {
         jvmTarget = "1.8"
     }
     buildFeatures {
@@ -46,7 +51,7 @@ android {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
-    }
+    }*/
 }
 
 dependencies {
@@ -61,7 +66,7 @@ dependencies {
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.compose.material3:material3")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
-    implementation("androidx.recyclerview:recyclerview:1.3.2")
+    implementation("androidx.recyclerview:recyclerview:1.1.0")
     implementation("androidx.cardview:cardview:1.0.0")
     implementation("com.google.code.gson:gson:2.8.9")
     implementation("com.tencent.map:tencent-map-vector-sdk:4.3.4")

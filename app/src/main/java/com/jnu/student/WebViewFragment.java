@@ -23,7 +23,7 @@ public class WebViewFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static WebViewFragment newInstance() {
+    public static WebViewFragment newInstance(String param1, String param2) {
         WebViewFragment fragment = new WebViewFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
@@ -35,6 +35,7 @@ public class WebViewFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
+
         }
     }
 
@@ -50,7 +51,7 @@ public class WebViewFragment extends Fragment {
 
         webView.setWebViewClient(new WebViewClient());
 
-        webView.loadUrl("<http://baidu.com>");
+        webView.loadUrl("https://news.sina.com.cn/");
         return rootView;
     }
 }

@@ -6,7 +6,7 @@
     tools:context=".ClockViewFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <com.jnu.student.CustomClockView
+    <com.jnu.student.view.CustomClockView
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

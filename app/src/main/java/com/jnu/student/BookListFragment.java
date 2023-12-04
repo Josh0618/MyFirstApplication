@@ -1,14 +1,13 @@
 package com.jnu.student;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -32,50 +31,26 @@ import java.util.ArrayList;
  */
 public class BookListFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    private ArrayList<Book> books = new ArrayList<>();
-    private BookAdapter bookAdapter;
-    ActivityResultLauncher<Intent> addItemLauncher;
-    ActivityResultLauncher<Intent> updateItemLauncher;
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment BookListFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static BookListFragment newInstance(String param1, String param2) {
-        BookListFragment fragment = new BookListFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     public BookListFragment() {
         // Required empty public constructor
     }
-
+    public static BookListFragment newInstance() {
+        BookListFragment fragment = new BookListFragment();
+        Bundle args = new Bundle();
+        fragment.setArguments(args);
+        return fragment;
+    }
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+
         }
     }
+    private ArrayList<Book> books = new ArrayList<>();
+    private BookAdapter bookAdapter;
+    ActivityResultLauncher<Intent> addItemLauncher;
+    ActivityResultLauncher<Intent> updateItemLauncher;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -103,10 +78,9 @@ public class BookListFragment extends Fragment {
                 result -> {
                     if (result.getResultCode() == Activity.RESULT_OK) {
                         Intent data = result.getData();
-                        assert data != null;
                         String name = data.getStringExtra("name"); // 获取返回的数据
 
-                        books.add(new Book(name, R.drawable.default_cover));
+                        books.add(new Book(name, R.drawable.book_1));
                         bookAdapter.notifyItemInserted(books.size());
 
                         new DataBank().SaveBooks(requireActivity(), books);
@@ -122,12 +96,11 @@ public class BookListFragment extends Fragment {
                 result -> {
                     if (result.getResultCode() == Activity.RESULT_OK) {
                         Intent data = result.getData();
-                        assert data != null;
                         int position = data.getIntExtra("position",0);
                         String name = data.getStringExtra("name"); // 获取返回的数据
 
                         Book book = books.get(position);
-                        book.setTitle(name);
+                        book.setName(name);
                         bookAdapter.notifyItemChanged(position);
 
                         new DataBank().SaveBooks(requireActivity(), books);
@@ -143,13 +116,12 @@ public class BookListFragment extends Fragment {
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        int position = item.getOrder();
 
-        switch (id) {
+        switch (item.getItemId()) {
             case 0:
                 Intent intent = new Intent(requireActivity(), BookDetailsActivity.class);
                 addItemLauncher.launch(intent);
+                startActivity(intent);
                 break;
             case 1:
                 AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
@@ -158,8 +130,8 @@ public class BookListFragment extends Fragment {
                 builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        books.remove(position);
-                        bookAdapter.notifyItemRemoved(position);
+                        books.remove(item.getOrder());
+                        bookAdapter.notifyItemRemoved(item.getOrder());
 
                         new DataBank().SaveBooks(requireActivity(), books);
                     }
@@ -173,9 +145,9 @@ public class BookListFragment extends Fragment {
                 break;
             case 2:
                 Intent intentUpdate = new Intent(requireActivity(), BookDetailsActivity.class);
-                Book book = books.get(position);
-                intentUpdate.putExtra("name", book.getTitle());
-                intentUpdate.putExtra("position", position);
+                Book book = books.get(item.getOrder());
+                intentUpdate.putExtra("name", book.getName());
+                intentUpdate.putExtra("position", item.getOrder());
                 updateItemLauncher.launch(intentUpdate);
                 break;
             default:
@@ -191,6 +163,14 @@ public class BookListFragment extends Fragment {
             private final TextView textViewName;
             private final ImageView imageViewItem;
 
+            @Override
+            public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+                menu.setHeaderTitle("具体操作");
+
+                menu.add(0, 0, this.getAdapterPosition(), "添加" + this.getAdapterPosition());
+                menu.add(0, 1, this.getAdapterPosition(), "删除" + this.getAdapterPosition());
+                menu.add(0, 2, this.getAdapterPosition(), "修改" + this.getAdapterPosition());
+            }
             public ViewHolder(View bookView) {
                 super(bookView);
 
@@ -208,20 +188,12 @@ public class BookListFragment extends Fragment {
                 return imageViewItem;
             }
 
-            @Override
-            public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-                menu.setHeaderTitle("具体操作");
 
-                menu.add(0, 0, this.getAdapterPosition(), "添加" + this.getAdapterPosition());
-                menu.add(0, 1, this.getAdapterPosition(), "删除" + this.getAdapterPosition());
-                menu.add(0, 2, this.getAdapterPosition(), "修改" + this.getAdapterPosition());
-            }
         }
         public BookAdapter(ArrayList<Book> books) {
-            this.bookArrayList = books;
+            bookArrayList = books;
         }
 
-        @NonNull
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
             View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_book, viewGroup, false);
@@ -229,8 +201,8 @@ public class BookListFragment extends Fragment {
         }
 
         @Override
-        public void onBindViewHolder(ViewHolder viewHolder, int position) {
-            viewHolder.getTextViewName().setText(books.get(position).getTitle());
+        public void onBindViewHolder(ViewHolder viewHolder, final int position) {
+            viewHolder.getTextViewName().setText(books.get(position).getName());
             viewHolder.getImageViewItem().setImageResource(books.get(position).getCoverResourceId());
         }
 
@@ -249,7 +221,7 @@ class Book implements Serializable {
 
     private int imageResourceId;
 
-    public String getTitle() {
+    public String getName() {
         return name;
     }
 
@@ -260,7 +232,7 @@ class Book implements Serializable {
         this.imageResourceId =imageResourceId_;
     }
 
-    public void setTitle(String name) {
+    public void setName(String name) {
         this.name = name;
     }
 }

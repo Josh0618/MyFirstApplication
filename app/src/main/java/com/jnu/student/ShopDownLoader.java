@@ -1,12 +1,6 @@
 package com.jnu.student;
 
-import android.os.AsyncTask;
 import android.util.Log;
-
-import com.tencent.tencentmap.mapsdk.maps.TencentMap;
-import com.tencent.tencentmap.mapsdk.maps.model.LatLng;
-import com.tencent.tencentmap.mapsdk.maps.model.Marker;
-import com.tencent.tencentmap.mapsdk.maps.model.MarkerOptions;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
