@@ -99,7 +99,7 @@ public class TencentMapFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_tencent_map, container, false);
         mapView = rootView.findViewById(R.id.mapView);
 
-        new DataDownload().download("http://file.nidama.net/class/mobile_develop/data/bookstore2023.json");
+        new DataDownloadTask().execute("http://file.nidama.net/class/mobile_develop/data/bookstore2023.json");
 
 
         TencentMap tencentMap = mapView.getMap();
