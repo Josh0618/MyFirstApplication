@@ -1,10 +1,9 @@
-package com.jnu.student;
+package com.jnu.student.data;
 
 import android.util.Log;
 
-import com.jnu.student.data.ShopLocation;
-
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -14,8 +13,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
+public class DataDownload{
 
-public class ShopDownLoader {
     public String download(String url_) {
         try {
             // 创建URL对象
@@ -93,5 +92,3 @@ public class ShopDownLoader {
         return  locations;
     }
 }
-
-

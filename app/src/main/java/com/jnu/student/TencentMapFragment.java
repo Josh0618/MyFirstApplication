@@ -9,7 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.jnu.student.ShopLocation;
+import com.jnu.student.data.DataDownload;
+import com.jnu.student.data.ShopLocation;
 import com.tencent.tencentmap.mapsdk.maps.CameraUpdateFactory;
 import com.tencent.tencentmap.mapsdk.maps.TencentMap;
 import com.tencent.tencentmap.mapsdk.maps.model.BitmapDescriptorFactory;
@@ -98,7 +99,7 @@ public class TencentMapFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_tencent_map, container, false);
         mapView = rootView.findViewById(R.id.mapView);
 
-        new DataDownloadTask().execute("http://file.nidama.net/class/mobile_develop/data/bookstore2023.json");
+        new DataDownload().download("http://file.nidama.net/class/mobile_develop/data/bookstore2023.json");
 
 
         TencentMap tencentMap = mapView.getMap();

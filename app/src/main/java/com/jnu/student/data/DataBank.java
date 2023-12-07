@@ -1,8 +1,6 @@
-package com.jnu.student;
+package com.jnu.student.data;
 import android.content.Context;
 import android.util.Log;
-
-import com.jnu.student.Book;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;

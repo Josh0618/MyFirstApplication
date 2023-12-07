@@ -6,6 +6,7 @@ plugins {
 android {
     namespace = "com.jnu.student"
     compileSdk = 34
+    testOptions.unitTests.isReturnDefaultValues = true
 
     defaultConfig {
         applicationId = "com.jnu.student"
@@ -70,9 +71,13 @@ dependencies {
     implementation("androidx.cardview:cardview:1.0.0")
     implementation("com.google.code.gson:gson:2.8.9")
     implementation("com.tencent.map:tencent-map-vector-sdk:4.3.4")
+    implementation("androidx.test:monitor:1.6.1")
+    implementation("androidx.tracing:tracing:1.2.0-beta02")
     testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test.ext:junit:1.1.5")
+    testImplementation("org.json:json:20231013")
+    androidTestImplementation("androidx.test.ext:junit:1.2.0-alpha01")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+    androidTestImplementation("androidx.test.espresso:espresso-contrib:3.5.1")
     androidTestImplementation(platform("androidx.compose:compose-bom:2023.10.01"))
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
     debugImplementation("androidx.compose.ui:ui-tooling")

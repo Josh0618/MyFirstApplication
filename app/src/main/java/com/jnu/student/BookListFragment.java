@@ -20,7 +20,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.io.Serializable;
+import com.jnu.student.data.DataBank;
+
+import com.jnu.student.data.Book;
 import java.util.ArrayList;
 
 /**
@@ -211,28 +213,5 @@ public class BookListFragment extends Fragment {
             return bookArrayList.size();
         }
 
-    }
-}
-
-class Book implements Serializable {
-    public int getCoverResourceId() {
-        return imageResourceId;
-    }
-
-    private int imageResourceId;
-
-    public String getName() {
-        return name;
-    }
-
-    private String name;
-
-    public Book(String name_, int imageResourceId_) {
-        this.name=name_;
-        this.imageResourceId =imageResourceId_;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 }
